@@ -8,12 +8,9 @@ import org.bukkit.entity.Player
 class DiscordBridgeCommand(
     private val plugin: DiscordBridgePlugin,
 ) {
-    private lateinit var feature: DiscordFeature
     private val framework = CommandFramework.create(plugin)
 
     fun registerCommand(){
-
-        feature = DiscordFeature(plugin)
 
         framework.command("디코"){
             aliases("discord")
@@ -26,14 +23,14 @@ class DiscordBridgeCommand(
             subCommand("좌표"){
                 // 디코 좌표
                 executes { context ->
-                    feature.sendLocation(context.sender as Player)
+                    plugin.feature.sendLocation(context.sender as Player)
                 }
                 val name = Argument("name", Arguments.string())
                 argument(name) {
                     // 디코 좌표저장 <name>
                     executes { context ->
                         val name: String = context[name]
-                        feature.sendLocation(context.sender as Player, name)
+                        plugin.feature.sendLocation(context.sender as Player, name)
                         context.sender.sendMessage("현재 위치를 전송했습니다.")
                     }
 
@@ -44,7 +41,7 @@ class DiscordBridgeCommand(
                             val name: String = context[name]
                             val targetPlayer: Player = context[targetPlayer]
 
-                            feature.sendLocation(targetPlayer, name)
+                            plugin.feature.sendLocation(targetPlayer, name)
                             context.sender.sendMessage("${targetPlayer.name}님의 현재 위치를 전송했습니다.")
                         }
                     }

@@ -6,6 +6,7 @@ class DiscordBridgePlugin : JavaPlugin() {
 
     lateinit var discordBot: DiscordBot
     private lateinit var discordCommand: DiscordBridgeCommand
+    var feature: DiscordFeature = DiscordFeature(this)
 
     override fun onEnable() {
         init()

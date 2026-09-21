@@ -8,8 +8,6 @@ class DiscordListener(
     private val plugin: DiscordBridgePlugin
 ): ListenerAdapter() {
 
-    private var feature: DiscordFeature = DiscordFeature(plugin)
-
     override fun onReady(event: ReadyEvent) {
         plugin.logger.info("디스코드 봇이 연결되었습니다. (${event.jda.selfUser.name})")
     }
@@ -20,6 +18,6 @@ class DiscordListener(
 
         val sender = event.member?.effectiveName ?: event.author.name
         val content = event.message.contentRaw
-        feature.sendDiscordMessage(sender, content)
+        plugin.feature.sendDiscordMessage(sender, content)
     }
 }

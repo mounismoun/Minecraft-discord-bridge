@@ -9,12 +9,10 @@ class DiscordBridgeListener(
     private val plugin: DiscordBridgePlugin
 ): Listener {
 
-    private var feature: DiscordFeature = DiscordFeature(plugin)
-
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
         val message = event.deathMessage
-        feature.sendDeathMessage(event.player, message.toString())
+        plugin.feature.sendDeathMessage(event.player, message.toString())
     }
 
     @EventHandler
@@ -22,6 +20,6 @@ class DiscordBridgeListener(
         val sender = event.player.name
         val message = event.message
 
-        feature.sendMinecraftMessage(sender, message)
+        plugin.feature.sendMinecraftMessage(sender, message)
     }
 }
