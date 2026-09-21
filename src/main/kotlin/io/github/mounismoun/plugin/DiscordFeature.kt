@@ -35,7 +35,7 @@ class DiscordFeature(
     fun sendDiscordMessage(sender: String, message: String){
         Bukkit.getScheduler().runTask(plugin, Runnable{
             Bukkit.getServer().broadcast(
-                Component.text("[Discord] <${sender}> $message")
+                Component.text("<${sender}> $message")
             )
         })
     }
