@@ -11,6 +11,13 @@ class DiscordBridgePlugin : JavaPlugin() {
 
     override fun onEnable() {
         init()
+
+        saveDefaultConfig()
+        val token = config.getString("bot-token").toString()
+        discordBot.botEnable(token)
+
+        discordCommand.registerCommand()
+        server.pluginManager.registerEvents(DiscordBridgeListener(this), this)
     }
 
     override fun onDisable() {
@@ -18,14 +25,6 @@ class DiscordBridgePlugin : JavaPlugin() {
     }
 
     private fun init(){
-        saveDefaultConfig()
-
-        val token = config.getString("bot-token").toString()
-        discordBot.botEnable(token)
-
         discordCommand = DiscordBridgeCommand(this, feature)
-        discordCommand.registerCommand()
-
-        server.pluginManager.registerEvents(DiscordBridgeListener(this), this)
     }
 }
