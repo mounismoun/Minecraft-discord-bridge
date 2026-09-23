@@ -21,7 +21,7 @@ class DiscordBot(
         try {
             jda = JDABuilder.createDefault(token)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                .addEventListeners(DiscordListener(plugin))
+                .addEventListeners(DiscordListener(plugin, plugin.feature))
                 .build()
             plugin.logger.info("봇 연결 중...")
         } catch (e: InvalidTokenException) {
@@ -48,5 +48,6 @@ class DiscordBot(
         }
 
         channel.sendMessage(content).queue()
+
     }
 }

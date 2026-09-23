@@ -4,9 +4,10 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class DiscordBridgePlugin : JavaPlugin() {
 
-    lateinit var discordBot: DiscordBot
     private lateinit var discordCommand: DiscordBridgeCommand
-    var feature: DiscordFeature = DiscordFeature(this)
+
+    val discordBot: DiscordBot = DiscordBot(this)
+    val feature: DiscordFeature = DiscordFeature(this, discordBot)
 
     override fun onEnable() {
         init()
@@ -17,13 +18,12 @@ class DiscordBridgePlugin : JavaPlugin() {
     }
 
     private fun init(){
-        discordBot = DiscordBot(this)
         saveDefaultConfig()
 
         val token = config.getString("bot-token").toString()
         discordBot.botEnable(token)
 
-        discordCommand = DiscordBridgeCommand(this)
+        discordCommand = DiscordBridgeCommand(this, feature)
         discordCommand.registerCommand()
 
         server.pluginManager.registerEvents(DiscordBridgeListener(this), this)

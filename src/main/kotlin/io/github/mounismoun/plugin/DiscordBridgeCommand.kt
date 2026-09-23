@@ -6,7 +6,9 @@ import io.github.mounismoun.command.argument.Arguments
 import org.bukkit.entity.Player
 
 class DiscordBridgeCommand(
+    // plugin 사용 예정이라 프로퍼티로 남겼음.
     private val plugin: DiscordBridgePlugin,
+    private val feature: DiscordFeature,
 ) {
     private val framework = CommandFramework.create(plugin)
 
@@ -23,25 +25,36 @@ class DiscordBridgeCommand(
             subCommand("좌표"){
                 // 디코 좌표
                 executes { context ->
-                    plugin.feature.sendLocation(context.sender as Player)
+                    if (context.sender is Player){
+                        feature.sendLocation(context.sender as Player)
+                    }else{
+                        context.sender.sendMessage("플레이어만 사용할 수 있습니다.")
+                    }
                 }
                 val name = Argument("name", Arguments.string())
                 argument(name) {
                     // 디코 좌표저장 <name>
                     executes { context ->
                         val name: String = context[name]
-                        plugin.feature.sendLocation(context.sender as Player, name)
+
+                        if (context.sender is Player){
+                            feature.sendLocation(context.sender as Player, name)
+                        }else{
+                            context.sender.sendMessage("플레이어만 사용할 수 있습니다.")
+                        }
+
                         context.sender.sendMessage("현재 위치를 전송했습니다.")
                     }
 
                     val targetPlayer = Argument("player", Arguments.player())
                     argument(targetPlayer) {
                         // 디코 좌표저장 <name> <player>
+
                         executes { context ->
                             val name: String = context[name]
                             val targetPlayer: Player = context[targetPlayer]
 
-                            plugin.feature.sendLocation(targetPlayer, name)
+                            feature.sendLocation(targetPlayer, name)
                             context.sender.sendMessage("${targetPlayer.name}님의 현재 위치를 전송했습니다.")
                         }
                     }

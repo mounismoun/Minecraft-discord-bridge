@@ -5,7 +5,8 @@ import net.dv8tion.jda.api.events.session.ReadyEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
 class DiscordListener(
-    private val plugin: DiscordBridgePlugin
+    private val plugin: DiscordBridgePlugin,
+    private val feature: DiscordFeature,
 ): ListenerAdapter() {
 
     override fun onReady(event: ReadyEvent) {
@@ -18,6 +19,6 @@ class DiscordListener(
 
         val sender = event.member?.effectiveName ?: event.author.name
         val content = event.message.contentRaw
-        plugin.feature.sendDiscordMessage(sender, content)
+        feature.sendDiscordMessage(sender, content)
     }
 }
